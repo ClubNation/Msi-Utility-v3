@@ -1,25 +1,28 @@
 # MSI Utility v3 — 2026
 
-
-Erro ao executar no Windows e ajuste manual de MSI para controladores USB
+**Erro ao executar no Windows e ajuste manual de MSI para controladores USB**
 
 ![Windows](https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 ![PowerShell](https://img.shields.io/badge/Script-PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
 ![Registry](https://img.shields.io/badge/Method-Registry%20Edit-critical?style=for-the-badge)
 ![Use with caution](https://img.shields.io/badge/Status-Use%20with%20caution-orange?style=for-the-badge)
 
+---
+
 ## Sobre
 
-Este repositório/documento explica como lidar com falhas ao abrir o `MSI Utility v3` no Windows e como aplicar manualmente, via Registro ou PowerShell, ajustes relacionados a **Message Signaled Interrupts (MSI)** em controladores USB.
+Este documento explica como lidar com falhas ao abrir o `MSI Utility v3` no Windows e como aplicar manualmente, via **Registro** ou **PowerShell**, ajustes relacionados a **Message Signaled Interrupts (MSI)** em controladores USB.
 
-O foco é:
+### Objetivos
 
 - diagnosticar o erro de execução do utilitário;
 - aplicar correções básicas;
 - oferecer alternativa manual;
 - documentar riscos e limitações técnicas.
 
-> **Importante:** este procedimento não garante ganho real de desempenho ou redução perceptível de input lag. O efeito depende de hardware, driver, chipset, firmware e versão do Windows.
+> [!IMPORTANT]
+> Este procedimento **não garante** ganho real de desempenho ou redução perceptível de input lag.  
+> O efeito depende de hardware, driver, chipset, firmware e versão do Windows.
 
 ---
 
@@ -30,6 +33,7 @@ O foco é:
 - [Soluções básicas](#soluções-básicas)
 - [Ajuste manual pelo Registro](#ajuste-manual-pelo-registro)
 - [Script PowerShell](#script-powershell)
+- [O que o script faz](#o-que-o-script-faz)
 - [Riscos e limitações](#riscos-e-limitações)
 - [Rollback](#rollback)
 - [Resumo rápido](#resumo-rápido)
@@ -117,6 +121,9 @@ ponto de restauração criado;
 
 backup/exportação das chaves que serão alteradas.
 
+[!WARNING]
+Alterar o Registro incorretamente pode causar instabilidade no sistema.
+
 Passo 1 — localizar o dispositivo
 
 Abra o Gerenciador de Dispositivos
@@ -153,7 +160,8 @@ Crie ou ajuste:
 
 DevicePriority = 3
 
-Em muitos casos, o utilitário gráfico faz exatamente esse tipo de alteração. A interface muda; a engrenagem subterrânea continua sendo o Registro.
+Em muitos casos, o utilitário gráfico faz exatamente esse tipo de alteração.
+A interface muda; a engrenagem subterrânea continua sendo o Registro.
 
 Script PowerShell
 
@@ -195,7 +203,7 @@ foreach ($dev in $usbControllers) {
 }
 
 Write-Host "`nConcluído. Reinicie o PC para aplicar as alterações." -ForegroundColor Yellow
-O que esse script faz
+O que o script faz
 MSISupported = 1
 
 Tenta habilitar o uso de Message Signaled Interrupts (MSI) no dispositivo, quando o driver e o hardware suportam isso.
@@ -281,4 +289,6 @@ Aviso final
 O MSI Utility v3 é, na prática, uma interface para ajustes de interrupção em dispositivos suportados.
 Se ele não abrir, o ajuste manual pode funcionar como alternativa — mas deve ser aplicado com critério, backup e teste.
 
-Este material não promete ganho garantido de performance. Ele documenta um procedimento técnico que pode ajudar em alguns casos e não fazer diferença alguma em outros. O Windows, esse bicho estranho, às vezes coopera; às vezes faz teatro.
+Este material não promete ganho garantido de performance. Ele documenta um procedimento técnico que pode ajudar em alguns casos e não fazer diferença alguma em outros.
+
+O Windows, esse bicho estranho, às vezes coopera; às vezes faz teatro.
